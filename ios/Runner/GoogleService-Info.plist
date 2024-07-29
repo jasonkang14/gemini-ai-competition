@@ -26,5 +26,7 @@
 	<true></true>
 	<key>GOOGLE_APP_ID</key>
 	<string>1:421161035067:ios:29e9d96a04e3bb5008831e</string>
+	<key>DATABASE_URL</key>
+	<string>https://gemini-hackathon-51fbd-default-rtdb.asia-southeast1.firebasedatabase.app</string>
 </dict>
 </plist>

@@ -52,6 +52,7 @@ class DefaultFirebaseOptions {
     messagingSenderId: '421161035067',
     projectId: 'gemini-hackathon-51fbd',
     authDomain: 'gemini-hackathon-51fbd.firebaseapp.com',
+    databaseURL: 'https://gemini-hackathon-51fbd-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gemini-hackathon-51fbd.appspot.com',
     measurementId: 'G-XMF9EZY74L',
   );
@@ -61,6 +62,7 @@ class DefaultFirebaseOptions {
     appId: '1:421161035067:android:057dc99b441a995408831e',
     messagingSenderId: '421161035067',
     projectId: 'gemini-hackathon-51fbd',
+    databaseURL: 'https://gemini-hackathon-51fbd-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gemini-hackathon-51fbd.appspot.com',
   );
 
@@ -69,7 +71,9 @@ class DefaultFirebaseOptions {
     appId: '1:421161035067:ios:29e9d96a04e3bb5008831e',
     messagingSenderId: '421161035067',
     projectId: 'gemini-hackathon-51fbd',
+    databaseURL: 'https://gemini-hackathon-51fbd-default-rtdb.asia-southeast1.firebasedatabase.app',
     storageBucket: 'gemini-hackathon-51fbd.appspot.com',
     iosBundleId: 'com.example.geminiHackathon',
   );
+
 }
