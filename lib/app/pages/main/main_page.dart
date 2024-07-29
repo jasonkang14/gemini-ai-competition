@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:gemini_hackathon/app/pages/main/widgets/blood_sugar_chart.dart';
+import 'package:gemini_hackathon/app/pages/main/widgets/diet_management.dart';
+import 'package:gemini_hackathon/app/pages/main/widgets/food_delievery.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -8,12 +11,21 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
+
+  static const List<Widget> _widgetOptions = [
+    BloodSugarChart(),
+    DietManagement(),
+    FoodDelivery(),
+  ];
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text('Blood Sugar Level'),
+      ),
       body: Row(
         children: [
           NavigationRail(
@@ -42,8 +54,10 @@ class _MainPageState extends State<MainPage> {
             },
             selectedIndex: _selectedIndex,
           ),
-          const Center(
-            child: Text('Tracker Page'),
+          Expanded(
+            child: Center(
+              child: _widgetOptions.elementAt(_selectedIndex),
+            ),
           ),
         ],
       ),
