@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "421161035067",
+    "project_id": "gemini-hackathon-51fbd",
+    "storage_bucket": "gemini-hackathon-51fbd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:421161035067:android:057dc99b441a995408831e",
+        "android_client_info": {
+          "package_name": "com.kangsium.gemini"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB248beoP8l1qjRFan5qGIm9FlW3gyRhzw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
