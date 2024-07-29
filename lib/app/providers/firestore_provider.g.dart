@@ -6,7 +6,22 @@ part of 'firestore_provider.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$firestoreHash() => r'5620e953832445590c59220c69606a4df1e4ae7e';
+String _$dietListHash() => r'1c9d093616a66a5803b7b38977956c6d291fba9b';
+
+/// See also [dietList].
+@ProviderFor(dietList)
+final dietListProvider = AutoDisposeFutureProvider<List<Diet>>.internal(
+  dietList,
+  name: r'dietListProvider',
+  debugGetCreateSourceHash:
+      const bool.fromEnvironment('dart.vm.product') ? null : _$dietListHash,
+  dependencies: null,
+  allTransitiveDependencies: null,
+);
+
+typedef DietListRef = AutoDisposeFutureProviderRef<List<Diet>>;
+String _$bloodSugarLevelListHash() =>
+    r'a74fcbad8600c980ec0f04cfc1e18ff402ae301c';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -29,27 +44,28 @@ class _SystemHash {
   }
 }
 
-/// See also [firestore].
-@ProviderFor(firestore)
-const firestoreProvider = FirestoreFamily();
+/// See also [bloodSugarLevelList].
+@ProviderFor(bloodSugarLevelList)
+const bloodSugarLevelListProvider = BloodSugarLevelListFamily();
 
-/// See also [firestore].
-class FirestoreFamily extends Family<AsyncValue<void>> {
-  /// See also [firestore].
-  const FirestoreFamily();
+/// See also [bloodSugarLevelList].
+class BloodSugarLevelListFamily
+    extends Family<AsyncValue<List<Map<String, dynamic>>>> {
+  /// See also [bloodSugarLevelList].
+  const BloodSugarLevelListFamily();
 
-  /// See also [firestore].
-  FirestoreProvider call(
+  /// See also [bloodSugarLevelList].
+  BloodSugarLevelListProvider call(
     String collectionName,
   ) {
-    return FirestoreProvider(
+    return BloodSugarLevelListProvider(
       collectionName,
     );
   }
 
   @override
-  FirestoreProvider getProviderOverride(
-    covariant FirestoreProvider provider,
+  BloodSugarLevelListProvider getProviderOverride(
+    covariant BloodSugarLevelListProvider provider,
   ) {
     return call(
       provider.collectionName,
@@ -68,31 +84,33 @@ class FirestoreFamily extends Family<AsyncValue<void>> {
       _allTransitiveDependencies;
 
   @override
-  String? get name => r'firestoreProvider';
+  String? get name => r'bloodSugarLevelListProvider';
 }
 
-/// See also [firestore].
-class FirestoreProvider extends AutoDisposeFutureProvider<void> {
-  /// See also [firestore].
-  FirestoreProvider(
+/// See also [bloodSugarLevelList].
+class BloodSugarLevelListProvider
+    extends AutoDisposeFutureProvider<List<Map<String, dynamic>>> {
+  /// See also [bloodSugarLevelList].
+  BloodSugarLevelListProvider(
     String collectionName,
   ) : this._internal(
-          (ref) => firestore(
-            ref as FirestoreRef,
+          (ref) => bloodSugarLevelList(
+            ref as BloodSugarLevelListRef,
             collectionName,
           ),
-          from: firestoreProvider,
-          name: r'firestoreProvider',
+          from: bloodSugarLevelListProvider,
+          name: r'bloodSugarLevelListProvider',
           debugGetCreateSourceHash:
               const bool.fromEnvironment('dart.vm.product')
                   ? null
-                  : _$firestoreHash,
-          dependencies: FirestoreFamily._dependencies,
-          allTransitiveDependencies: FirestoreFamily._allTransitiveDependencies,
+                  : _$bloodSugarLevelListHash,
+          dependencies: BloodSugarLevelListFamily._dependencies,
+          allTransitiveDependencies:
+              BloodSugarLevelListFamily._allTransitiveDependencies,
           collectionName: collectionName,
         );
 
-  FirestoreProvider._internal(
+  BloodSugarLevelListProvider._internal(
     super._createNotifier, {
     required super.name,
     required super.dependencies,
@@ -106,12 +124,14 @@ class FirestoreProvider extends AutoDisposeFutureProvider<void> {
 
   @override
   Override overrideWith(
-    FutureOr<void> Function(FirestoreRef provider) create,
+    FutureOr<List<Map<String, dynamic>>> Function(
+            BloodSugarLevelListRef provider)
+        create,
   ) {
     return ProviderOverride(
       origin: this,
-      override: FirestoreProvider._internal(
-        (ref) => create(ref as FirestoreRef),
+      override: BloodSugarLevelListProvider._internal(
+        (ref) => create(ref as BloodSugarLevelListRef),
         from: from,
         name: null,
         dependencies: null,
@@ -123,13 +143,14 @@ class FirestoreProvider extends AutoDisposeFutureProvider<void> {
   }
 
   @override
-  AutoDisposeFutureProviderElement<void> createElement() {
-    return _FirestoreProviderElement(this);
+  AutoDisposeFutureProviderElement<List<Map<String, dynamic>>> createElement() {
+    return _BloodSugarLevelListProviderElement(this);
   }
 
   @override
   bool operator ==(Object other) {
-    return other is FirestoreProvider && other.collectionName == collectionName;
+    return other is BloodSugarLevelListProvider &&
+        other.collectionName == collectionName;
   }
 
   @override
@@ -141,17 +162,20 @@ class FirestoreProvider extends AutoDisposeFutureProvider<void> {
   }
 }
 
-mixin FirestoreRef on AutoDisposeFutureProviderRef<void> {
+mixin BloodSugarLevelListRef
+    on AutoDisposeFutureProviderRef<List<Map<String, dynamic>>> {
   /// The parameter `collectionName` of this provider.
   String get collectionName;
 }
 
-class _FirestoreProviderElement extends AutoDisposeFutureProviderElement<void>
-    with FirestoreRef {
-  _FirestoreProviderElement(super.provider);
+class _BloodSugarLevelListProviderElement
+    extends AutoDisposeFutureProviderElement<List<Map<String, dynamic>>>
+    with BloodSugarLevelListRef {
+  _BloodSugarLevelListProviderElement(super.provider);
 
   @override
-  String get collectionName => (origin as FirestoreProvider).collectionName;
+  String get collectionName =>
+      (origin as BloodSugarLevelListProvider).collectionName;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

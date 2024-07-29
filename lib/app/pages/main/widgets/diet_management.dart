@@ -7,22 +7,30 @@ class DietManagement extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final dietList = ref.watch(firestoreProvider('jason_diets'));
-    print('dietList: $dietList');
-    return GridView.count(
-      crossAxisCount: 5,
-      children: <Widget>[
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[100],
-          child: const Text("He'd have you all unravel at the"),
-        ),
-        Container(
-          padding: const EdgeInsets.all(8),
-          color: Colors.teal[200],
-          child: const Text('Heed not the rabble'),
-        ),
-      ],
+    final dietListFuture = ref.watch(dietListProvider);
+    print('dietList: $dietListFuture  ');
+    return dietListFuture.when(
+      data: (dietList) {
+        return GridView.builder(
+          shrinkWrap: true,
+          itemCount: dietList.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
+            childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
+            mainAxisSpacing: 10, //수평 Padding
+            crossAxisSpacing: 10, //수직 Padding
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            // return Text(index.toString());
+            return Image.network(
+              dietList[index].imagePath,
+              height: 200,
+            );
+          },
+        );
+      },
+      error: (error, stack) => Text('error: $error'),
+      loading: () => const CircularProgressIndicator(),
     );
   }
 }
