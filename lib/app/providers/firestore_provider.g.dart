@@ -21,7 +21,7 @@ final dietListProvider = AutoDisposeFutureProvider<List<Diet>>.internal(
 
 typedef DietListRef = AutoDisposeFutureProviderRef<List<Diet>>;
 String _$bloodSugarLevelListHash() =>
-    r'a74fcbad8600c980ec0f04cfc1e18ff402ae301c';
+    r'ba2822a546b47718e5c40814b26500f0d70c7911';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -50,7 +50,7 @@ const bloodSugarLevelListProvider = BloodSugarLevelListFamily();
 
 /// See also [bloodSugarLevelList].
 class BloodSugarLevelListFamily
-    extends Family<AsyncValue<List<Map<String, dynamic>>>> {
+    extends Family<AsyncValue<List<BloodSugarLevel>>> {
   /// See also [bloodSugarLevelList].
   const BloodSugarLevelListFamily();
 
@@ -89,7 +89,7 @@ class BloodSugarLevelListFamily
 
 /// See also [bloodSugarLevelList].
 class BloodSugarLevelListProvider
-    extends AutoDisposeFutureProvider<List<Map<String, dynamic>>> {
+    extends AutoDisposeFutureProvider<List<BloodSugarLevel>> {
   /// See also [bloodSugarLevelList].
   BloodSugarLevelListProvider(
     String collectionName,
@@ -124,8 +124,7 @@ class BloodSugarLevelListProvider
 
   @override
   Override overrideWith(
-    FutureOr<List<Map<String, dynamic>>> Function(
-            BloodSugarLevelListRef provider)
+    FutureOr<List<BloodSugarLevel>> Function(BloodSugarLevelListRef provider)
         create,
   ) {
     return ProviderOverride(
@@ -143,7 +142,7 @@ class BloodSugarLevelListProvider
   }
 
   @override
-  AutoDisposeFutureProviderElement<List<Map<String, dynamic>>> createElement() {
+  AutoDisposeFutureProviderElement<List<BloodSugarLevel>> createElement() {
     return _BloodSugarLevelListProviderElement(this);
   }
 
@@ -163,13 +162,13 @@ class BloodSugarLevelListProvider
 }
 
 mixin BloodSugarLevelListRef
-    on AutoDisposeFutureProviderRef<List<Map<String, dynamic>>> {
+    on AutoDisposeFutureProviderRef<List<BloodSugarLevel>> {
   /// The parameter `collectionName` of this provider.
   String get collectionName;
 }
 
 class _BloodSugarLevelListProviderElement
-    extends AutoDisposeFutureProviderElement<List<Map<String, dynamic>>>
+    extends AutoDisposeFutureProviderElement<List<BloodSugarLevel>>
     with BloodSugarLevelListRef {
   _BloodSugarLevelListProviderElement(super.provider);
 

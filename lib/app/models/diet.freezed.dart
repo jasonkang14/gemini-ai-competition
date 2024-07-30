@@ -25,11 +25,7 @@ mixin _$Diet {
   int get carbs => throw _privateConstructorUsedError;
   int get fat => throw _privateConstructorUsedError;
   String get imagePath => throw _privateConstructorUsedError;
-  @JsonKey(
-      includeFromJson: true,
-      includeToJson: true,
-      fromJson: Diet.serializeTimestampToTime)
-  String get datetime => throw _privateConstructorUsedError;
+  DateTime get datetime => throw _privateConstructorUsedError;
   List<String> get impactList => throw _privateConstructorUsedError;
   List<String> get menuList => throw _privateConstructorUsedError;
 
@@ -49,11 +45,7 @@ abstract class $DietCopyWith<$Res> {
       int carbs,
       int fat,
       String imagePath,
-      @JsonKey(
-          includeFromJson: true,
-          includeToJson: true,
-          fromJson: Diet.serializeTimestampToTime)
-      String datetime,
+      DateTime datetime,
       List<String> impactList,
       List<String> menuList});
 }
@@ -104,7 +96,7 @@ class _$DietCopyWithImpl<$Res, $Val extends Diet>
       datetime: null == datetime
           ? _value.datetime
           : datetime // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       impactList: null == impactList
           ? _value.impactList
           : impactList // ignore: cast_nullable_to_non_nullable
@@ -130,11 +122,7 @@ abstract class _$$DietImplCopyWith<$Res> implements $DietCopyWith<$Res> {
       int carbs,
       int fat,
       String imagePath,
-      @JsonKey(
-          includeFromJson: true,
-          includeToJson: true,
-          fromJson: Diet.serializeTimestampToTime)
-      String datetime,
+      DateTime datetime,
       List<String> impactList,
       List<String> menuList});
 }
@@ -182,7 +170,7 @@ class __$$DietImplCopyWithImpl<$Res>
       datetime: null == datetime
           ? _value.datetime
           : datetime // ignore: cast_nullable_to_non_nullable
-              as String,
+              as DateTime,
       impactList: null == impactList
           ? _value._impactList
           : impactList // ignore: cast_nullable_to_non_nullable
@@ -206,11 +194,7 @@ class _$DietImpl implements _Diet {
       this.carbs = 0,
       this.fat = 0,
       this.imagePath = '',
-      @JsonKey(
-          includeFromJson: true,
-          includeToJson: true,
-          fromJson: Diet.serializeTimestampToTime)
-      this.datetime = '',
+      required this.datetime,
       final List<String> impactList = const [],
       final List<String> menuList = const []})
       : _impactList = impactList,
@@ -235,11 +219,7 @@ class _$DietImpl implements _Diet {
   @JsonKey()
   final String imagePath;
   @override
-  @JsonKey(
-      includeFromJson: true,
-      includeToJson: true,
-      fromJson: Diet.serializeTimestampToTime)
-  final String datetime;
+  final DateTime datetime;
   final List<String> _impactList;
   @override
   @JsonKey()
@@ -316,11 +296,7 @@ abstract class _Diet implements Diet {
       final int carbs,
       final int fat,
       final String imagePath,
-      @JsonKey(
-          includeFromJson: true,
-          includeToJson: true,
-          fromJson: Diet.serializeTimestampToTime)
-      final String datetime,
+      required final DateTime datetime,
       final List<String> impactList,
       final List<String> menuList}) = _$DietImpl;
 
@@ -337,11 +313,7 @@ abstract class _Diet implements Diet {
   @override
   String get imagePath;
   @override
-  @JsonKey(
-      includeFromJson: true,
-      includeToJson: true,
-      fromJson: Diet.serializeTimestampToTime)
-  String get datetime;
+  DateTime get datetime;
   @override
   List<String> get impactList;
   @override

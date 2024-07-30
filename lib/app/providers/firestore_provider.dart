@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:gemini_hackathon/app/models/blood_sugar_level.dart';
 import 'package:gemini_hackathon/app/models/diet.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -14,10 +15,10 @@ Future<List<Diet>> dietList(DietListRef ref) async {
 }
 
 @riverpod
-Future<List<Map<String, dynamic>>> bloodSugarLevelList(BloodSugarLevelListRef ref, String collectionName) async {
+Future<List<BloodSugarLevel>> bloodSugarLevelList(BloodSugarLevelListRef ref, String collectionName) async {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  final eventList = await db.collection(collectionName).get();
-  print('eventList: $eventList');
-  return [];
+  final eventList = await db.collection('jason_blood_sugar_levels').get();
+  return eventList.docs.map((doc) => BloodSugarLevel.fromJson(doc.data())).toList()
+    ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 }

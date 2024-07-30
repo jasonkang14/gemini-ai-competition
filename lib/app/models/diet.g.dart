@@ -12,9 +12,7 @@ _$DietImpl _$$DietImplFromJson(Map<String, dynamic> json) => _$DietImpl(
       carbs: (json['carbs'] as num?)?.toInt() ?? 0,
       fat: (json['fat'] as num?)?.toInt() ?? 0,
       imagePath: json['image_path'] as String? ?? '',
-      datetime: json['datetime'] == null
-          ? ''
-          : Diet.serializeTimestampToTime(json['datetime']),
+      datetime: DateTime.parse(json['datetime'] as String),
       impactList: (json['impact_list'] as List<dynamic>?)
               ?.map((e) => e as String)
               .toList() ??
@@ -32,7 +30,7 @@ Map<String, dynamic> _$$DietImplToJson(_$DietImpl instance) =>
       'carbs': instance.carbs,
       'fat': instance.fat,
       'image_path': instance.imagePath,
-      'datetime': instance.datetime,
+      'datetime': instance.datetime.toIso8601String(),
       'impact_list': instance.impactList,
       'menu_list': instance.menuList,
     };
