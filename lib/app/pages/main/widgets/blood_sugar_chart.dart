@@ -34,7 +34,7 @@ class BloodSugarChart extends ConsumerWidget {
                         return Consumer(
                           builder: (context, ref, child) {
                             final dietFuture = ref.watch(dietProvider(formattedX));
-                            print('dietFuture: $dietFuture');
+
                             return AlertDialog(
                               title: const Text('Diet Info'),
                               content: Column(
@@ -45,19 +45,37 @@ class BloodSugarChart extends ConsumerWidget {
                                   const SizedBox(height: 16),
                                   dietFuture.when(
                                     data: (diet) {
-                                      print('diet.menuList: ${diet.menuList}');
-
                                       return Column(
                                         crossAxisAlignment: CrossAxisAlignment.start,
                                         children: [
-                                          Text('Calories: ${diet.calories}'),
-                                          const SizedBox(height: 16),
+                                          // Text('Calories: ${diet.calories}'),
+                                          // const SizedBox(height: 16),
                                           diet.menuList.isNotEmpty
                                               ? Column(
                                                   crossAxisAlignment: CrossAxisAlignment.start,
                                                   children: [
-                                                    const Text('Menu:'),
+                                                    const Text(
+                                                      'Menu:',
+                                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                                    ),
                                                     ...diet.menuList.asMap().entries.map((entry) {
+                                                      final index = entry.key + 1;
+                                                      final menu = entry.value;
+                                                      return Text('$index. $menu');
+                                                    }),
+                                                  ],
+                                                )
+                                              : const Text('Menu: Not available'),
+                                          const SizedBox(height: 16),
+                                          diet.impactList.isNotEmpty
+                                              ? Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text(
+                                                      'Explanation:',
+                                                      style: TextStyle(fontWeight: FontWeight.bold),
+                                                    ),
+                                                    ...diet.impactList.asMap().entries.map((entry) {
                                                       final index = entry.key + 1;
                                                       final menu = entry.value;
                                                       return Text('$index. $menu');
@@ -76,7 +94,6 @@ class BloodSugarChart extends ConsumerWidget {
                                 ],
                               ),
                               actions: <Widget>[
-                                TextButton(child: const Text('Show Details'), onPressed: () {}),
                                 TextButton(
                                   child: const Text('Close'),
                                   onPressed: () {

@@ -8,7 +8,6 @@ class DietManagement extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     final dietListFuture = ref.watch(dietListProvider);
-    print('dietList: $dietListFuture  ');
     return dietListFuture.when(
       data: (dietList) {
         return GridView.builder(

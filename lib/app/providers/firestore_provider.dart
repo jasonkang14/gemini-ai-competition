@@ -27,13 +27,7 @@ Future<List<BloodSugarLevel>> bloodSugarLevelList(BloodSugarLevelListRef ref, St
 Future<Diet> diet(DietRef ref, String timestamp) async {
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
-  // final dietDoc = db.collection('jason_diets').doc(timestamp).withConverter<Diet>(
-  //       fromFirestore: (snapshot, _) => Diet.fromJson(snapshot.data()!),
-  //       toFirestore: (diet, _) => diet.toJson(),
-  //     );
   final dietDoc = await db.collection('jason_diets').doc(timestamp).get();
-  print('dietDoc: ${dietDoc.data()}');
-  // final dietSnapshot = await dietDoc.get();
-  // print('dietSnapshot: ${dietDoc.data()}');
+
   return Diet.fromJson(dietDoc.data()!);
 }
