@@ -25,7 +25,6 @@ mixin _$Diet {
   int get carbs => throw _privateConstructorUsedError;
   int get fat => throw _privateConstructorUsedError;
   String get imagePath => throw _privateConstructorUsedError;
-  DateTime get datetime => throw _privateConstructorUsedError;
   List<String> get impactList => throw _privateConstructorUsedError;
   List<String> get menuList => throw _privateConstructorUsedError;
 
@@ -45,7 +44,6 @@ abstract class $DietCopyWith<$Res> {
       int carbs,
       int fat,
       String imagePath,
-      DateTime datetime,
       List<String> impactList,
       List<String> menuList});
 }
@@ -68,7 +66,6 @@ class _$DietCopyWithImpl<$Res, $Val extends Diet>
     Object? carbs = null,
     Object? fat = null,
     Object? imagePath = null,
-    Object? datetime = null,
     Object? impactList = null,
     Object? menuList = null,
   }) {
@@ -93,10 +90,6 @@ class _$DietCopyWithImpl<$Res, $Val extends Diet>
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
               as String,
-      datetime: null == datetime
-          ? _value.datetime
-          : datetime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       impactList: null == impactList
           ? _value.impactList
           : impactList // ignore: cast_nullable_to_non_nullable
@@ -122,7 +115,6 @@ abstract class _$$DietImplCopyWith<$Res> implements $DietCopyWith<$Res> {
       int carbs,
       int fat,
       String imagePath,
-      DateTime datetime,
       List<String> impactList,
       List<String> menuList});
 }
@@ -142,7 +134,6 @@ class __$$DietImplCopyWithImpl<$Res>
     Object? carbs = null,
     Object? fat = null,
     Object? imagePath = null,
-    Object? datetime = null,
     Object? impactList = null,
     Object? menuList = null,
   }) {
@@ -167,10 +158,6 @@ class __$$DietImplCopyWithImpl<$Res>
           ? _value.imagePath
           : imagePath // ignore: cast_nullable_to_non_nullable
               as String,
-      datetime: null == datetime
-          ? _value.datetime
-          : datetime // ignore: cast_nullable_to_non_nullable
-              as DateTime,
       impactList: null == impactList
           ? _value._impactList
           : impactList // ignore: cast_nullable_to_non_nullable
@@ -194,7 +181,6 @@ class _$DietImpl implements _Diet {
       this.carbs = 0,
       this.fat = 0,
       this.imagePath = '',
-      required this.datetime,
       final List<String> impactList = const [],
       final List<String> menuList = const []})
       : _impactList = impactList,
@@ -218,8 +204,6 @@ class _$DietImpl implements _Diet {
   @override
   @JsonKey()
   final String imagePath;
-  @override
-  final DateTime datetime;
   final List<String> _impactList;
   @override
   @JsonKey()
@@ -240,7 +224,7 @@ class _$DietImpl implements _Diet {
 
   @override
   String toString() {
-    return 'Diet(calories: $calories, protein: $protein, carbs: $carbs, fat: $fat, imagePath: $imagePath, datetime: $datetime, impactList: $impactList, menuList: $menuList)';
+    return 'Diet(calories: $calories, protein: $protein, carbs: $carbs, fat: $fat, imagePath: $imagePath, impactList: $impactList, menuList: $menuList)';
   }
 
   @override
@@ -255,8 +239,6 @@ class _$DietImpl implements _Diet {
             (identical(other.fat, fat) || other.fat == fat) &&
             (identical(other.imagePath, imagePath) ||
                 other.imagePath == imagePath) &&
-            (identical(other.datetime, datetime) ||
-                other.datetime == datetime) &&
             const DeepCollectionEquality()
                 .equals(other._impactList, _impactList) &&
             const DeepCollectionEquality().equals(other._menuList, _menuList));
@@ -271,7 +253,6 @@ class _$DietImpl implements _Diet {
       carbs,
       fat,
       imagePath,
-      datetime,
       const DeepCollectionEquality().hash(_impactList),
       const DeepCollectionEquality().hash(_menuList));
 
@@ -296,7 +277,6 @@ abstract class _Diet implements Diet {
       final int carbs,
       final int fat,
       final String imagePath,
-      required final DateTime datetime,
       final List<String> impactList,
       final List<String> menuList}) = _$DietImpl;
 
@@ -312,8 +292,6 @@ abstract class _Diet implements Diet {
   int get fat;
   @override
   String get imagePath;
-  @override
-  DateTime get datetime;
   @override
   List<String> get impactList;
   @override

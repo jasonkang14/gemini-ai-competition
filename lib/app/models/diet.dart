@@ -16,7 +16,6 @@ class Diet with _$Diet {
     @Default(0) int carbs,
     @Default(0) int fat,
     @Default('') String imagePath,
-    required DateTime datetime,
     @Default([]) List<String> impactList,
     @Default([]) List<String> menuList,
   }) = _Diet;

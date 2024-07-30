@@ -21,7 +21,7 @@ final dietListProvider = AutoDisposeFutureProvider<List<Diet>>.internal(
 
 typedef DietListRef = AutoDisposeFutureProviderRef<List<Diet>>;
 String _$bloodSugarLevelListHash() =>
-    r'ba2822a546b47718e5c40814b26500f0d70c7911';
+    r'86780b3293c2b85255eae2704daa0c1bc18cb774';
 
 /// Copied from Dart SDK
 class _SystemHash {
@@ -175,6 +175,131 @@ class _BloodSugarLevelListProviderElement
   @override
   String get collectionName =>
       (origin as BloodSugarLevelListProvider).collectionName;
+}
+
+String _$dietHash() => r'dceeb2b9beb5ca7d1df181276f27649b2f16288a';
+
+/// See also [diet].
+@ProviderFor(diet)
+const dietProvider = DietFamily();
+
+/// See also [diet].
+class DietFamily extends Family<AsyncValue<Diet>> {
+  /// See also [diet].
+  const DietFamily();
+
+  /// See also [diet].
+  DietProvider call(
+    String timestamp,
+  ) {
+    return DietProvider(
+      timestamp,
+    );
+  }
+
+  @override
+  DietProvider getProviderOverride(
+    covariant DietProvider provider,
+  ) {
+    return call(
+      provider.timestamp,
+    );
+  }
+
+  static const Iterable<ProviderOrFamily>? _dependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get dependencies => _dependencies;
+
+  static const Iterable<ProviderOrFamily>? _allTransitiveDependencies = null;
+
+  @override
+  Iterable<ProviderOrFamily>? get allTransitiveDependencies =>
+      _allTransitiveDependencies;
+
+  @override
+  String? get name => r'dietProvider';
+}
+
+/// See also [diet].
+class DietProvider extends AutoDisposeFutureProvider<Diet> {
+  /// See also [diet].
+  DietProvider(
+    String timestamp,
+  ) : this._internal(
+          (ref) => diet(
+            ref as DietRef,
+            timestamp,
+          ),
+          from: dietProvider,
+          name: r'dietProvider',
+          debugGetCreateSourceHash:
+              const bool.fromEnvironment('dart.vm.product') ? null : _$dietHash,
+          dependencies: DietFamily._dependencies,
+          allTransitiveDependencies: DietFamily._allTransitiveDependencies,
+          timestamp: timestamp,
+        );
+
+  DietProvider._internal(
+    super._createNotifier, {
+    required super.name,
+    required super.dependencies,
+    required super.allTransitiveDependencies,
+    required super.debugGetCreateSourceHash,
+    required super.from,
+    required this.timestamp,
+  }) : super.internal();
+
+  final String timestamp;
+
+  @override
+  Override overrideWith(
+    FutureOr<Diet> Function(DietRef provider) create,
+  ) {
+    return ProviderOverride(
+      origin: this,
+      override: DietProvider._internal(
+        (ref) => create(ref as DietRef),
+        from: from,
+        name: null,
+        dependencies: null,
+        allTransitiveDependencies: null,
+        debugGetCreateSourceHash: null,
+        timestamp: timestamp,
+      ),
+    );
+  }
+
+  @override
+  AutoDisposeFutureProviderElement<Diet> createElement() {
+    return _DietProviderElement(this);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    return other is DietProvider && other.timestamp == timestamp;
+  }
+
+  @override
+  int get hashCode {
+    var hash = _SystemHash.combine(0, runtimeType.hashCode);
+    hash = _SystemHash.combine(hash, timestamp.hashCode);
+
+    return _SystemHash.finish(hash);
+  }
+}
+
+mixin DietRef on AutoDisposeFutureProviderRef<Diet> {
+  /// The parameter `timestamp` of this provider.
+  String get timestamp;
+}
+
+class _DietProviderElement extends AutoDisposeFutureProviderElement<Diet>
+    with DietRef {
+  _DietProviderElement(super.provider);
+
+  @override
+  String get timestamp => (origin as DietProvider).timestamp;
 }
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

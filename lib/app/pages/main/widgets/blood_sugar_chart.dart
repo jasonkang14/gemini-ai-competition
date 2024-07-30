@@ -20,14 +20,75 @@ class BloodSugarChart extends ConsumerWidget {
               minY: 60,
               maxY: 150,
               lineTouchData: LineTouchData(
+                getTouchLineStart: (barData, spotIndex) => 0,
+                getTouchLineEnd: (barData, spotIndex) => 0,
                 touchCallback: (FlTouchEvent event, LineTouchResponse? touchResponse) {
                   if (event is FlTapUpEvent && touchResponse != null && touchResponse.lineBarSpots != null) {
                     final spot = touchResponse.lineBarSpots!.first;
                     final x = DateTime.fromMillisecondsSinceEpoch(spot.x.toInt());
                     final formattedX = DateFormat('yyyy-MM-dd HH:mm').format(x);
                     final y = spot.y;
-                    // Handle the click event here
-                    print('Clicked on: Date: $formattedX, Level: $y');
+                    showDialog(
+                      context: context,
+                      builder: (BuildContext context) {
+                        return Consumer(
+                          builder: (context, ref, child) {
+                            final dietFuture = ref.watch(dietProvider(formattedX));
+                            print('dietFuture: $dietFuture');
+                            return AlertDialog(
+                              title: const Text('Diet Info'),
+                              content: Column(
+                                mainAxisSize: MainAxisSize.min,
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text('Date: $formattedX\nLevel: $y'),
+                                  const SizedBox(height: 16),
+                                  dietFuture.when(
+                                    data: (diet) {
+                                      print('diet.menuList: ${diet.menuList}');
+
+                                      return Column(
+                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                        children: [
+                                          Text('Calories: ${diet.calories}'),
+                                          const SizedBox(height: 16),
+                                          diet.menuList.isNotEmpty
+                                              ? Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    const Text('Menu:'),
+                                                    ...diet.menuList.asMap().entries.map((entry) {
+                                                      final index = entry.key + 1;
+                                                      final menu = entry.value;
+                                                      return Text('$index. $menu');
+                                                    }),
+                                                  ],
+                                                )
+                                              : const Text('Menu: Not available'),
+                                        ],
+                                      );
+                                    },
+                                    error: (error, stackTrace) {
+                                      return const Text('Diet info does not exist');
+                                    },
+                                    loading: () => const CircularProgressIndicator(),
+                                  ),
+                                ],
+                              ),
+                              actions: <Widget>[
+                                TextButton(child: const Text('Show Details'), onPressed: () {}),
+                                TextButton(
+                                  child: const Text('Close'),
+                                  onPressed: () {
+                                    Navigator.of(context).pop();
+                                  },
+                                ),
+                              ],
+                            );
+                          },
+                        );
+                      },
+                    );
                   }
                 },
                 touchTooltipData: LineTouchTooltipData(
