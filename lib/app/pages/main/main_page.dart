@@ -11,7 +11,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
 
   static const List<Widget> _widgetOptions = [
@@ -20,11 +20,17 @@ class _MainPageState extends State<MainPage> {
     FoodDelivery(),
   ];
 
+  static const List<String> _titleList = [
+    'Blood Sugar Level',
+    'Diet Management',
+    'Delivery',
+  ];
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text('Blood Sugar Level'),
+        title: Text(_titleList.elementAt(_selectedIndex)),
       ),
       body: Row(
         children: [

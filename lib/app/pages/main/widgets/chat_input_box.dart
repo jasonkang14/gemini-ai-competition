@@ -23,8 +23,8 @@ class ChatInputBox extends StatelessWidget {
               padding: const EdgeInsets.all(4.0),
               child: IconButton(
                   onPressed: onClickCamera,
-                  color: Theme.of(context).colorScheme.onSecondary,
-                  icon: const Icon(Icons.file_copy_rounded)),
+                  color: Theme.of(context).colorScheme.primary,
+                  icon: const Icon(Icons.camera_alt_outlined)),
             ),
           Expanded(
               child: TextField(
