@@ -1,5 +1,6 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_hackathon/app/app.dart';
 import 'package:gemini_hackathon/firebase_options.dart';
@@ -9,6 +10,7 @@ import 'package:url_strategy/url_strategy.dart';
 void main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
   WidgetsFlutterBinding.ensureInitialized();
+  Gemini.init(apiKey: 'AIzaSyC5zi03Fr9eJYsD2qepK46b8GBYW37XAX0', enableDebugging: true);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,

@@ -18,7 +18,7 @@ class BloodSugarChart extends ConsumerWidget {
           child: LineChart(
             LineChartData(
               minY: 60,
-              maxY: 150,
+              maxY: 190,
               lineTouchData: LineTouchData(
                 getTouchLineStart: (barData, spotIndex) => 0,
                 getTouchLineEnd: (barData, spotIndex) => 0,
@@ -37,61 +37,81 @@ class BloodSugarChart extends ConsumerWidget {
 
                             return AlertDialog(
                               title: const Text('Diet Info'),
-                              content: Column(
-                                mainAxisSize: MainAxisSize.min,
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text('Date: $formattedX\nLevel: $y'),
-                                  const SizedBox(height: 16),
-                                  dietFuture.when(
-                                    data: (diet) {
-                                      return Column(
-                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                        children: [
-                                          // Text('Calories: ${diet.calories}'),
-                                          // const SizedBox(height: 16),
-                                          diet.menuList.isNotEmpty
-                                              ? Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      'Menu:',
-                                                      style: TextStyle(fontWeight: FontWeight.bold),
-                                                    ),
-                                                    ...diet.menuList.asMap().entries.map((entry) {
-                                                      final index = entry.key + 1;
-                                                      final menu = entry.value;
-                                                      return Text('$index. $menu');
-                                                    }),
-                                                  ],
-                                                )
-                                              : const Text('Menu: Not available'),
-                                          const SizedBox(height: 16),
-                                          diet.impactList.isNotEmpty
-                                              ? Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    const Text(
-                                                      'Explanation:',
-                                                      style: TextStyle(fontWeight: FontWeight.bold),
-                                                    ),
-                                                    ...diet.impactList.asMap().entries.map((entry) {
-                                                      final index = entry.key + 1;
-                                                      final menu = entry.value;
-                                                      return Text('$index. $menu');
-                                                    }),
-                                                  ],
-                                                )
-                                              : const Text('Menu: Not available'),
-                                        ],
-                                      );
-                                    },
-                                    error: (error, stackTrace) {
-                                      return const Text('Diet info does not exist');
-                                    },
-                                    loading: () => const CircularProgressIndicator(),
-                                  ),
-                                ],
+                              content: SizedBox(
+                                width: 480,
+                                height: 240,
+                                child: Stack(
+                                  children: [
+                                    Positioned(
+                                      right: 0,
+                                      child: dietFuture.when(
+                                        data: (diet) {
+                                          return Image.network(
+                                            diet.imagePath,
+                                            width: 160,
+                                            height: 140,
+                                          );
+                                        },
+                                        error: (err, stt) => Container(),
+                                        loading: () => Container(),
+                                      ),
+                                    ),
+                                    Column(
+                                      mainAxisSize: MainAxisSize.min,
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Text('Date: $formattedX\nLevel: $y'),
+                                        const SizedBox(height: 16),
+                                        dietFuture.when(
+                                          data: (diet) {
+                                            return Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                diet.menuList.isNotEmpty
+                                                    ? Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          const Text(
+                                                            'Menu:',
+                                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                                          ),
+                                                          ...diet.menuList.asMap().entries.map((entry) {
+                                                            final index = entry.key + 1;
+                                                            final menu = entry.value;
+                                                            return Text('$index. $menu');
+                                                          }),
+                                                        ],
+                                                      )
+                                                    : const Text('Menu: Not available'),
+                                                const SizedBox(height: 16),
+                                                diet.impactList.isNotEmpty
+                                                    ? Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          const Text(
+                                                            'Explanation:',
+                                                            style: TextStyle(fontWeight: FontWeight.bold),
+                                                          ),
+                                                          ...diet.impactList.asMap().entries.map((entry) {
+                                                            final index = entry.key + 1;
+                                                            final menu = entry.value;
+                                                            return Text('$index. $menu');
+                                                          }),
+                                                        ],
+                                                      )
+                                                    : const Text('Menu: Not available'),
+                                              ],
+                                            );
+                                          },
+                                          error: (error, stackTrace) {
+                                            return const Text('Diet info does not exist');
+                                          },
+                                          loading: () => const CircularProgressIndicator(),
+                                        ),
+                                      ],
+                                    ),
+                                  ],
+                                ),
                               ),
                               actions: <Widget>[
                                 TextButton(

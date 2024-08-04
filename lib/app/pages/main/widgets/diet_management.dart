@@ -1,35 +1,40 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:gemini_hackathon/app/providers/firestore_provider.dart';
+import 'dart:typed_data';
 
-class DietManagement extends ConsumerWidget {
+import 'package:flutter/material.dart';
+import 'package:flutter_gemini/flutter_gemini.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:gemini_hackathon/app/pages/main/widgets/chat_input_box.dart';
+import 'package:gemini_hackathon/app/providers/firestore_provider.dart';
+import 'package:image_picker/image_picker.dart';
+
+class DietManagement extends ConsumerStatefulWidget {
   const DietManagement({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
-    final dietListFuture = ref.watch(dietListProvider);
-    return dietListFuture.when(
-      data: (dietList) {
-        return GridView.builder(
-          shrinkWrap: true,
-          itemCount: dietList.length,
-          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-            crossAxisCount: 3, //1 개의 행에 보여줄 item 개수
-            childAspectRatio: 1 / 1, //item 의 가로 1, 세로 1 의 비율
-            mainAxisSpacing: 10, //수평 Padding
-            crossAxisSpacing: 10, //수직 Padding
-          ),
-          itemBuilder: (BuildContext context, int index) {
-            // return Text(index.toString());
-            return Image.network(
-              dietList[index].imagePath,
-              height: 200,
-            );
-          },
-        );
-      },
-      error: (error, stack) => Text('error: $error'),
-      loading: () => const CircularProgressIndicator(),
+  ConsumerState<DietManagement> createState() => _DietManagementState();
+}
+
+class _DietManagementState extends ConsumerState<DietManagement> {
+  final ImagePicker picker = ImagePicker();
+  final controller = TextEditingController();
+  final gemini = Gemini.instance;
+
+  String? searchedText, result;
+  bool _loading = false;
+
+  Uint8List? selectedImage;
+
+  bool get loading => _loading;
+
+  set loading(bool set) => setState(() => _loading = set);
+
+  @override
+  Widget build(BuildContext context) {
+    return const Column(
+      children: [
+        Text('diet management'),
+        ChatInputBox(),
+      ],
     );
   }
 }

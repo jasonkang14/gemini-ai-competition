@@ -19,7 +19,9 @@ Future<List<BloodSugarLevel>> bloodSugarLevelList(BloodSugarLevelListRef ref, St
   final FirebaseFirestore db = FirebaseFirestore.instance;
 
   final eventList = await db.collection('jason_blood_sugar_levels').get();
-  return eventList.docs.map((doc) => BloodSugarLevel.fromJson(doc.data())).toList()
+  return eventList.docs.map((doc) {
+    return BloodSugarLevel(level: doc['level'], timestamp: (doc['timestamp'] as Timestamp).toDate());
+  }).toList()
     ..sort((a, b) => a.timestamp.compareTo(b.timestamp));
 }
 

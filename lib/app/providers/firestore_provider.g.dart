@@ -177,7 +177,7 @@ class _BloodSugarLevelListProviderElement
       (origin as BloodSugarLevelListProvider).collectionName;
 }
 
-String _$dietHash() => r'dceeb2b9beb5ca7d1df181276f27649b2f16288a';
+String _$dietHash() => r'd5934965c450ad7b0b8e8b286779e1dba45196c9';
 
 /// See also [diet].
 @ProviderFor(diet)
