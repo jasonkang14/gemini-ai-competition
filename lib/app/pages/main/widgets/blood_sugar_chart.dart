@@ -1,4 +1,5 @@
 import 'dart:typed_data';
+import 'package:gemini_hackathon/app/providers/realtime_db_provider.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:fl_chart/fl_chart.dart';
@@ -43,8 +44,9 @@ class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
 
   @override
   Widget build(BuildContext context) {
-    final bloodSugarFuture = ref.watch(bloodSugarLevelListProvider('jason_blood_sugar_levels'));
-
+    // final bloodSugarFuture = ref.watch(bloodSugarLevelListProvider('jason_blood_sugar_levels'));
+    final bloodSugarFuture = ref.watch(bloodSugarProvider);
+    // print('hey: $hey');
     return bloodSugarFuture.when(
       data: (bloodSugarList) {
         return Column(

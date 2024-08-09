@@ -21,7 +21,7 @@ final dietListProvider = AutoDisposeFutureProvider<List<Diet>>.internal(
 
 typedef DietListRef = AutoDisposeFutureProviderRef<List<Diet>>;
 String _$bloodSugarLevelListHash() =>
-    r'86780b3293c2b85255eae2704daa0c1bc18cb774';
+    r'95937877126f76f4fdfc9684b8121840bac48a22';
 
 /// Copied from Dart SDK
 class _SystemHash {

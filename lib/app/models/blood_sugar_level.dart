@@ -3,6 +3,8 @@ import 'package:freezed_annotation/freezed_annotation.dart';
 part 'blood_sugar_level.freezed.dart';
 part 'blood_sugar_level.g.dart';
 
+
+
 @freezed
 class BloodSugarLevel with _$BloodSugarLevel {
   @JsonSerializable(
