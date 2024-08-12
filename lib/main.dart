@@ -10,7 +10,7 @@ import 'package:url_strategy/url_strategy.dart';
 void main() async {
   GoRouter.optionURLReflectsImperativeAPIs = true;
   WidgetsFlutterBinding.ensureInitialized();
-  Gemini.init(apiKey: 'AIzaSyC5zi03Fr9eJYsD2qepK46b8GBYW37XAX0', enableDebugging: true);
+  Gemini.init(apiKey: '', enableDebugging: true);
 
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
