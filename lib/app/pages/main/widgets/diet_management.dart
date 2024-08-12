@@ -7,6 +7,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_hackathon/app/pages/main/widgets/chat_input_box.dart';
 import 'package:gemini_hackathon/app/pages/main/widgets/human_message.dart';
 import 'package:gemini_hackathon/app/pages/main/widgets/item_image_view.dart';
+import 'package:gemini_hackathon/app/providers/ai_provider.dart';
 import 'package:image_picker/image_picker.dart';
 
 class DietManagement extends ConsumerStatefulWidget {
@@ -19,19 +20,15 @@ class DietManagement extends ConsumerStatefulWidget {
 class _DietManagementState extends ConsumerState<DietManagement> {
   final ImagePicker picker = ImagePicker();
   final controller = TextEditingController();
-  final gemini = Gemini.instance;
 
-  String? searchedText, result, _finishReason;
-  bool _loading = false;
+  String? searchedText, result;
 
   List<Uint8List>? images;
 
-  bool get loading => _loading;
-  String? get finishReason => _finishReason;
-  set loading(bool set) => setState(() => _loading = set);
-
   @override
   Widget build(BuildContext context) {
+    final gemini = ref.watch(aIProvider.notifier);
+
     return Column(
       children: [
         if (searchedText != null)
@@ -47,29 +44,30 @@ class _DietManagementState extends ConsumerState<DietManagement> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Expanded(child: GeminiResponseTypeView(
-                  builder: (context, child, response, loading) {
-                    if (loading) {
-                      return const Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
+                Expanded(
+                  child: GeminiResponseTypeView(
+                    builder: (context, child, response, loading) {
+                      if (loading) {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
 
-                    if (response != null) {
-                      return Markdown(
-                        data: response,
-                        selectable: true,
-                      );
-                    } else {
-                      return Container();
-                    }
-                  },
-                )),
+                      if (response != null) {
+                        return Markdown(
+                          data: response,
+                          selectable: true,
+                        );
+                      } else {
+                        return Container();
+                      }
+                    },
+                  ),
+                ),
               ],
             ),
           ),
         ),
-        if (finishReason != null) Text(finishReason!),
         if (images != null)
           Container(
             height: 120,
@@ -107,25 +105,12 @@ class _DietManagementState extends ConsumerState<DietManagement> {
                 searchedText = controller.text;
               });
               controller.clear();
-              gemini.streamGenerateContent(searchedText!,
-                  images: images,
-                  modelName: 'models/gemini-1.5-pro',
-                  safetySettings: [
-                    SafetySetting(
-                      category: SafetyCategory.dangerous,
-                      threshold: SafetyThreshold.blockLowAndAbove,
-                    ),
-                  ]).handleError((e) {
-                if (e is GeminiException) {}
-              }).listen((value) {
-                // setState(() {
-                //   images = null;
-                // });
-                // result = (result ?? '') + (value.output ?? '');
-
-                if (value.finishReason != 'STOP') {
-                  _finishReason = 'Finish reason is `${value.finishReason}`';
-                }
+              gemini.streamChatMessage(
+                userMessage: searchedText!,
+                images: images,
+              );
+              setState(() {
+                images = null;
               });
             }
           },

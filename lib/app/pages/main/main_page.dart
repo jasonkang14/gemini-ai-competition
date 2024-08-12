@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:gemini_hackathon/app/pages/main/widgets/blood_sugar_chart.dart';
 import 'package:gemini_hackathon/app/pages/main/widgets/diet_management.dart';
-import 'package:gemini_hackathon/app/pages/main/widgets/food_delievery.dart';
 
 class MainPage extends StatefulWidget {
   const MainPage({super.key});
@@ -17,13 +16,11 @@ class _MainPageState extends State<MainPage> {
   static const List<Widget> _widgetOptions = [
     BloodSugarChart(),
     DietManagement(),
-    FoodDelivery(),
   ];
 
   static const List<String> _titleList = [
     'Blood Sugar Level',
     'Diet Management',
-    'Delivery',
   ];
 
   @override
@@ -46,11 +43,6 @@ class _MainPageState extends State<MainPage> {
                 icon: Icon(Icons.dining_outlined),
                 selectedIcon: Icon(Icons.dining_rounded),
                 label: Text('Diet'),
-              ),
-              NavigationRailDestination(
-                icon: Icon(Icons.delivery_dining_outlined),
-                selectedIcon: Icon(Icons.delivery_dining_rounded),
-                label: Text('Delivery'),
               ),
             ],
             onDestinationSelected: (int index) {

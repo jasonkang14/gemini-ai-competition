@@ -1,12 +1,15 @@
 import 'dart:typed_data';
+import 'package:gemini_hackathon/app/pages/main/widgets/diet_info_alert.dialog.dart';
+import 'package:gemini_hackathon/app/pages/main/widgets/item_image_view.dart';
+import 'package:gemini_hackathon/app/providers/ai_provider.dart';
 import 'package:gemini_hackathon/app/providers/realtime_db_provider.dart';
-import 'package:http/http.dart' as http;
 
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_hackathon/app/providers/firestore_provider.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
 class BloodSugarChart extends ConsumerStatefulWidget {
@@ -17,12 +20,16 @@ class BloodSugarChart extends ConsumerStatefulWidget {
 }
 
 class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
+  final ImagePicker picker = ImagePicker();
   final gemini = Gemini.instance;
   final _prediction = [];
+  String dietInfo = '';
+  List<Uint8List>? images;
 
   @override
   Widget build(BuildContext context) {
     final bloodSugarFuture = ref.watch(bloodSugarProvider);
+    final gemini = ref.watch(aIProvider.notifier);
 
     return bloodSugarFuture.when(
       data: (bloodSugarList) {
@@ -54,93 +61,85 @@ class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
 
                                 return dietFuture.when(
                                   data: (diet) {
-                                    return AlertDialog(
-                                      title: const Text('Diet Info'),
-                                      content: SizedBox(
-                                        width: 480,
-                                        height: 240,
-                                        child: Stack(
-                                          children: [
-                                            Positioned(
-                                              right: 0,
-                                              child: Image.network(
-                                                diet.imagePath,
-                                                width: 160,
-                                                height: 140,
-                                              ),
-                                            ),
-                                            Column(
-                                              mainAxisSize: MainAxisSize.min,
-                                              crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                Text('Date: $formattedX\nLevel: $y'),
-                                                const SizedBox(height: 16),
-                                                diet.menuList.isNotEmpty
-                                                    ? Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          const Text(
-                                                            'Menu:',
-                                                            style: TextStyle(fontWeight: FontWeight.bold),
-                                                          ),
-                                                          ...diet.menuList.asMap().entries.map((entry) {
-                                                            final index = entry.key + 1;
-                                                            final menu = entry.value;
-                                                            return Text('$index. $menu');
-                                                          }),
-                                                        ],
-                                                      )
-                                                    : const Text('Menu: Not available'),
-                                                const SizedBox(height: 16),
-                                                diet.impactList.isNotEmpty
-                                                    ? Column(
-                                                        crossAxisAlignment: CrossAxisAlignment.start,
-                                                        children: [
-                                                          const Text(
-                                                            'Explanation:',
-                                                            style: TextStyle(fontWeight: FontWeight.bold),
-                                                          ),
-                                                          ...diet.impactList.asMap().entries.map((entry) {
-                                                            final index = entry.key + 1;
-                                                            final menu = entry.value;
-                                                            return Text('$index. $menu');
-                                                          }),
-                                                        ],
-                                                      )
-                                                    : const Text('Explanation: Not available'),
-                                              ],
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('Close'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
+                                    return DietInfoAlertDialog(
+                                      formattedX: formattedX,
+                                      y: y,
+                                      diet: diet,
                                     );
                                   },
                                   error: (error, stackTrace) {
-                                    return AlertDialog(
-                                      title: const Text('Error'),
-                                      content: const Text('Diet info does not exist'),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: const Text('Upload'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                        TextButton(
-                                          child: const Text('Close'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                          },
-                                        ),
-                                      ],
+                                    return StatefulBuilder(
+                                      builder: (context, setState) {
+                                        return AlertDialog(
+                                          title: const Text('Upload Diet Info'),
+                                          content: SizedBox(
+                                            height: 400,
+                                            child: GeminiResponseTypeView(
+                                              builder: (context, child, response, loading) {
+                                                if (loading) {
+                                                  return const Center(
+                                                    child: CircularProgressIndicator(),
+                                                  );
+                                                }
+
+                                                return Column(
+                                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                                  children: [
+                                                    if (images != null)
+                                                      Container(
+                                                        height: 120,
+                                                        padding: const EdgeInsets.symmetric(horizontal: 4),
+                                                        alignment: Alignment.centerLeft,
+                                                        child: Card(
+                                                          child: ListView.builder(
+                                                            itemBuilder: (context, index) => ItemImageView(
+                                                              bytes: images!.elementAt(index),
+                                                            ),
+                                                            itemCount: images!.length,
+                                                            scrollDirection: Axis.horizontal,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    Text(dietInfo),
+                                                  ],
+                                                );
+                                              },
+                                            ),
+                                          ),
+                                          actions: <Widget>[
+                                            TextButton(
+                                              child: const Text('Upload'),
+                                              onPressed: () async {
+                                                picker.pickMultiImage().then((value) async {
+                                                  final imagesBytes = <Uint8List>[];
+                                                  for (final file in value) {
+                                                    imagesBytes.add(await file.readAsBytes());
+                                                  }
+
+                                                  if (imagesBytes.isNotEmpty) {
+                                                    final aiMessage = await gemini.askWithImage(
+                                                      userMessage:
+                                                          'If I were to eat this, what impact would this have on my blood sugar?',
+                                                      images: imagesBytes,
+                                                    );
+
+                                                    setState(() {
+                                                      dietInfo = aiMessage;
+                                                      images = imagesBytes;
+                                                    });
+                                                  }
+                                                });
+                                              },
+                                            ),
+                                            TextButton(
+                                              child: const Text('Close'),
+                                              onPressed: () {
+                                                Navigator.of(context).pop();
+                                              },
+                                            ),
+                                          ],
+                                        );
+                                      },
                                     );
                                   },
                                   loading: () => const Center(child: CircularProgressIndicator()),
