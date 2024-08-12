@@ -38,9 +38,9 @@ class AI extends _$AI {
       images: images,
       modelName: 'models/gemini-1.5-pro',
     );
-    print('result: $result');
+
     final aiMessage = result?.content?.parts![0].text;
-    print('aiMessage: $aiMessage');
+
     return aiMessage ?? '';
   }
 }
