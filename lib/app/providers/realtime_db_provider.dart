@@ -49,7 +49,7 @@ Stream<List<BloodSugarLevel>> bloodSugar(BloodSugarRef ref) async* {
     List<BloodSugarLevel> bloodSugarLevels = dataMap.values.map((e) {
       return BloodSugarLevel.fromJson(Map<String, dynamic>.from(e as Map));
     }).toList();
-    print('bloodSugarLevels:$bloodSugarLevels');
+
     yield bloodSugarLevels;
     await Future<void>.delayed(const Duration(seconds: 1));
   }

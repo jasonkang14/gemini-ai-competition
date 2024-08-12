@@ -1,25 +1,24 @@
 // GENERATED CODE - DO NOT MODIFY BY HAND
 
-part of 'realtime_db_provider.dart';
+part of 'storage_provider.dart';
 
 // **************************************************************************
 // RiverpodGenerator
 // **************************************************************************
 
-String _$bloodSugarHash() => r'45e3ebf5e8e79e9cc43b332997b3f3bc026aa842';
+String _$storageHash() => r'225a4e8b30ed02afb9ac6453fb60e35c32e99a66';
 
-/// See also [bloodSugar].
-@ProviderFor(bloodSugar)
-final bloodSugarProvider =
-    AutoDisposeStreamProvider<List<BloodSugarLevel>>.internal(
-  bloodSugar,
-  name: r'bloodSugarProvider',
+/// See also [Storage].
+@ProviderFor(Storage)
+final storageProvider = AutoDisposeNotifierProvider<Storage, void>.internal(
+  Storage.new,
+  name: r'storageProvider',
   debugGetCreateSourceHash:
-      const bool.fromEnvironment('dart.vm.product') ? null : _$bloodSugarHash,
+      const bool.fromEnvironment('dart.vm.product') ? null : _$storageHash,
   dependencies: null,
   allTransitiveDependencies: null,
 );
 
-typedef BloodSugarRef = AutoDisposeStreamProviderRef<List<BloodSugarLevel>>;
+typedef _$Storage = AutoDisposeNotifier<void>;
 // ignore_for_file: type=lint
 // ignore_for_file: subtype_of_sealed_class, invalid_use_of_internal_member, invalid_use_of_visible_for_testing_member

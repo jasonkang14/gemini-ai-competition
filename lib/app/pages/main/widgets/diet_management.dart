@@ -56,7 +56,6 @@ class _DietManagementState extends ConsumerState<DietManagement> {
                     }
 
                     if (response != null) {
-                      print('gemini response: $response');
                       return Markdown(
                         data: response,
                         selectable: true,
