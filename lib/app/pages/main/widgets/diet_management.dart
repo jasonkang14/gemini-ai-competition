@@ -47,6 +47,7 @@ class _DietManagementState extends ConsumerState<DietManagement> {
                 Expanded(
                   child: GeminiResponseTypeView(
                     builder: (context, child, response, loading) {
+                      print('loading: $loading');
                       if (loading) {
                         return const Center(
                           child: CircularProgressIndicator(),

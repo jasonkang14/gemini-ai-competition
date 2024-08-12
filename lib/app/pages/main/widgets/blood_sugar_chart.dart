@@ -9,6 +9,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_gemini/flutter_gemini.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:gemini_hackathon/app/providers/firestore_provider.dart';
+import 'package:gemini_hackathon/app/providers/storage_provider.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 
@@ -23,7 +24,7 @@ class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
   final ImagePicker picker = ImagePicker();
   final gemini = Gemini.instance;
   final _prediction = [];
-  String dietInfo = '';
+  String dietInfo = 'Please let me know what you had for your meal.';
   List<Uint8List>? images;
 
   @override
@@ -73,36 +74,35 @@ class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
                                         return AlertDialog(
                                           title: const Text('Upload Diet Info'),
                                           content: SizedBox(
-                                            height: 400,
+                                            height: 300,
                                             child: GeminiResponseTypeView(
                                               builder: (context, child, response, loading) {
                                                 if (loading) {
                                                   return const Center(
-                                                    child: CircularProgressIndicator(),
+                                                    child: CircularProgressIndicator(
+                                                      color: Colors.blueAccent,
+                                                    ),
                                                   );
                                                 }
 
-                                                return Column(
-                                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                                  children: [
-                                                    if (images != null)
-                                                      Container(
-                                                        height: 120,
-                                                        padding: const EdgeInsets.symmetric(horizontal: 4),
-                                                        alignment: Alignment.centerLeft,
-                                                        child: Card(
-                                                          child: ListView.builder(
-                                                            itemBuilder: (context, index) => ItemImageView(
-                                                              bytes: images!.elementAt(index),
+                                                return images == null
+                                                    ? const Center(child: CircularProgressIndicator())
+                                                    : Column(
+                                                        crossAxisAlignment: CrossAxisAlignment.start,
+                                                        children: [
+                                                          Container(
+                                                            height: 120,
+                                                            padding: const EdgeInsets.symmetric(horizontal: 4),
+                                                            alignment: Alignment.centerLeft,
+                                                            child: Card(
+                                                              child: ItemImageView(
+                                                                bytes: images![0],
+                                                              ),
                                                             ),
-                                                            itemCount: images!.length,
-                                                            scrollDirection: Axis.horizontal,
                                                           ),
-                                                        ),
-                                                      ),
-                                                    Text(dietInfo),
-                                                  ],
-                                                );
+                                                          Text(dietInfo),
+                                                        ],
+                                                      );
                                               },
                                             ),
                                           ),
@@ -112,14 +112,16 @@ class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
                                               onPressed: () async {
                                                 picker.pickMultiImage().then((value) async {
                                                   final imagesBytes = <Uint8List>[];
+                                                  String filename = '';
                                                   for (final file in value) {
                                                     imagesBytes.add(await file.readAsBytes());
+                                                    filename = file.name;
                                                   }
 
                                                   if (imagesBytes.isNotEmpty) {
                                                     final aiMessage = await gemini.askWithImage(
                                                       userMessage:
-                                                          'If I were to eat this, what impact would this have on my blood sugar?',
+                                                          'If I were to eat this, what impact would this have on my blood sugar? Answer in 4-5 sentences',
                                                       images: imagesBytes,
                                                     );
 
@@ -127,6 +129,17 @@ class _BloodSugarChartState extends ConsumerState<BloodSugarChart> {
                                                       dietInfo = aiMessage;
                                                       images = imagesBytes;
                                                     });
+
+                                                    final storageNotifier = ref.read(storageProvider.notifier);
+                                                    final remoteImagePath = await storageNotifier.uploadToStorage(
+                                                      imageBytes: imagesBytes[0],
+                                                      filename: filename,
+                                                    );
+                                                    final firestoreNotifier = ref.read(firestoreProvider.notifier);
+                                                    await firestoreNotifier.uploadToFirestore(
+                                                      analysis: aiMessage,
+                                                      imagePath: remoteImagePath,
+                                                    );
                                                   }
                                                 });
                                               },

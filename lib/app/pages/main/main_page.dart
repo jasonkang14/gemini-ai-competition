@@ -10,7 +10,7 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  int _selectedIndex = 0;
+  int _selectedIndex = 1;
   NavigationRailLabelType labelType = NavigationRailLabelType.all;
 
   static const List<Widget> _widgetOptions = [
